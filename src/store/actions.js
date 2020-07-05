@@ -1,28 +1,20 @@
 export const ADD_TODO = "ADD_TODO";
+export const DELETE_TODO = "DELETE_TODO";
 export const CHANGE_TODO = "CHANGE_TODO";
-export const REMOVE_TODO = "REMOVE_TODO";
 
-let todo =0;
-export const add=(newtext)=>{
+export const addTodo = (newtext) =>({
     
-    return{
-        type: ADD_TODO,
-        payload:newtext,
-        id:todo++,
-        
-    };
-};
+    type:ADD_TODO,
+    newtext
+});
 
-export const change =(id)=>{
-    return{
-        type: CHANGE_TODO,
-        id
-    };
-};
-export const removeTodo = (id)=>{
-    return{
-        type: REMOVE_TODO,
-        id
-    };
-};
+export const deleteToDo = (id)=>({
+    type:DELETE_TODO,
+    id
+});
+
+export const changeToDo = (id)=>({
+    type:CHANGE_TODO,
+    id
+});
 

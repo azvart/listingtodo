@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import {add,change,removeTodo} from './store/actions';
+import {deleteToDo,changeToDo, addTodo} from './store/actions';
 import { connect } from 'react-redux';
 import { bindActionCreators} from 'redux';
 
@@ -10,64 +10,35 @@ import Nav from './components/nav';
 
 const App=(props)=>{
 
-  const {complete,id,text,add,change,removeTodo} = props;
+  const {text,addToDo,deleteToDo,changeToDo} = props;
 
-
-  const [value,setValue] = useState({
-    item: [],
-   
-  });
-
-  const handleClick = ()=>{
-    let newItem ={
-      text: text
-    }
-    setValue(({
-      item: value.item.concat(newItem.text)
-    }))
-    
-  }
-  const changeHandle = (event)=>{
-    change(event.complete);
-  }
-  const removeHandle = ()=>{
-    removeTodo();
-  }
   return (
     
     <div >
-     
-      <input type="text" value={text}  placeholder='write the task'  onChange={(event)=>add(event.target.value)}/>
-      <div>
-        <button onClick ={handleClick}>Add</button>
-      </div>
-      <div>
-     
-        
-            <Nav/>
-            
-            <Route path='/active' render={()=> <Li value={value} id={id} complete={complete} change={changeHandle} remove={removeHandle} />}/>
-            {/* <Route path ='/complete' render={()=>}/>
-            <Route path ='/delete' render={()=>}/> */}
-
-      </div>
+     <form onSubmit={(e)=>addTodo(e.preventDefault(),
+      e.terget.value)}>
+       <input type="text" value={txt} onChange={}/>
+       <button type='submit'>ADD</button>
+     </form>
+      
     </div>
     
   );
 }
 const putStateAction =(state)=>{
   return{
-    text: state.text,
-    id: state.id,
+    text: state.map((e)=>e.text),
+    id: state.map((e)=>e.id),
     complete:false
 
   }
 };
 const putDispatchAction =(dispatch)=>{
   return{
-  add: bindActionCreators(add,dispatch),
-  change: bindActionCreators(change,dispatch),
-  removeTodo: bindActionCreators(removeTodo,dispatch)
+  addTodo: bindActionCreators(addTodo,dispatch),
+  deleteToDo: bindActionCreators(deleteToDo,dispatch),
+  changeToDo: bindActionCreators(changeToDo,dispatch)
+
   }
 };
 export default connect( putStateAction,putDispatchAction)(App);

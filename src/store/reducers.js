@@ -1,36 +1,28 @@
-import {ADD_TODO} from './actions';
-import {CHANGE_TODO} from './actions';
-import {REMOVE_TODO} from './actions';
+import {ADD_TODO,CHANGE_TODO,DELETE_TODO} from './actions';
 
-const initialState = {
-    text:'',
+
+
+const initialState = [{
     
-}
+    text:'',
+    completed:false,
+    id:0
+    
+}];
 
 export const Reducers = (state=initialState,action)=>{
     switch(action.type){
         case ADD_TODO:
-        return {...state, text: action.payload,id:action.id,complete:false};
+        return [...state,{
+            id:state.reduce((maxId,todo)=>Math.max(todo.id,maxId), -1)+1,
+            completed:false,
+            text:action.newtext
+        }];
+        case DELETE_TODO:
+        return state.filter(todo=>todo.id !==action.id);
         case CHANGE_TODO:
-        return state.map(change=>{
-            if(change.id !==action.id){
-                return change;
-            }
-        return{
-            ...change, complete:!change.complete
-        }
-        });
-        case REMOVE_TODO:
-        let index;
-        state.map((t,i)=>{
-            if(t.id === action.id){
-                index=i;
-            }
-        });
-        return[
-            ...state.slice(0,index),
-            ...state.slice(index +1)
-        ]
+        return state.map(todo=>todo.id === action.id ?{...todo,completed: !todo.completed}:todo);
+        
         default:
         return state;
     }

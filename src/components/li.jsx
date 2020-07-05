@@ -5,13 +5,16 @@ const Li =(props)=>{
     const {value} = props;
     return(
         <ul>
-            {value.item.map((e)=><li key={props.id}>
-                <input type="checkbox" checked={props.complete} onChange={props.changeHandle}/>
+            {value.map((e)=><li>
+                <input type="checkbox"  onClick={props.changeHandle}/>
                 {e}
                 <button onClick={props.remove}>x</button>
-                </li>)}
+            </li>)}
+          
         </ul>
     )
 }
 
 export default connect()(Li);
+
+
