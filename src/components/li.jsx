@@ -2,14 +2,16 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 const Li =(props)=>{
-    const {value} = props;
+    
+    const {vals,id,deletes} = props;
     return(
         <ul>
-            {value.map((e)=><li>
-                <input type="checkbox"  onClick={props.changeHandle}/>
-                {e}
-                <button onClick={props.remove}>x</button>
-            </li>)}
+            <li key={id}>
+                <input type='checkbox'  />
+                {vals}
+                <button  >x</button>
+            </li>
+           
           
         </ul>
     )

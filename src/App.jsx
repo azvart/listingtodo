@@ -9,27 +9,34 @@ import Nav from './components/nav';
 
 
 const App=(props)=>{
-
-  const {text,addToDo,deleteToDo,changeToDo} = props;
+  
+  const {listing,addTodo,id,deleteToDo,changeToDo} = props;
+  const [values, setValues] = useState('');
 
   return (
     
     <div >
-     <form onSubmit={(e)=>addTodo(e.preventDefault(),
-      e.terget.value)}>
-       <input type="text" value={txt} onChange={}/>
-       <button type='submit'>ADD</button>
-     </form>
-      
+    
+       <input type="text" value={values} onChange={(e)=>setValues(e.target.value)} />
+       <button onClick={()=>addTodo({text:values,  id:id,status:'/active'})}>ADD</button>
+     
+      <div>
+        
+        
+        
+        {listing.map((e)=><Route path={e.status} render={()=><Li vals={e.text} id={e.id}  />} />)}
+        <Nav></Nav>
+      </div>
     </div>
     
   );
 }
 const putStateAction =(state)=>{
   return{
-    text: state.map((e)=>e.text),
-    id: state.map((e)=>e.id),
-    complete:false
+    listing: state.list,
+    id:state.list.reduce((maxId,todo)=>Math.max(todo.id,maxId), -1)+1,
+    
+    
 
   }
 };
